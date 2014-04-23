@@ -1,26 +1,26 @@
-ic-autocomplete
+ic-combobox
 ===============
 
-[![Build Status](https://travis-ci.org/instructure/ic-autocomplete.png?branch=master)](https://travis-ci.org/instructure/ic-autocomplete)
+[![Build Status](https://travis-ci.org/instructure/ic-combobox.png?branch=master)](https://travis-ci.org/instructure/ic-combobox)
 
-[WAI-ARIA][wai-aria] accessible autocomplete dialog component for [Ember.js][ember].
+[WAI-ARIA][wai-aria] accessible combobox dialog component for [Ember.js][ember].
 
 Demo
 ----
 
-http://instructure.github.io/ic-autocomplete
+http://instructure.github.io/ic-combobox
 
 Installation
 ------------
 
 ```sh
-$ npm install ic-autocomplete
+$ npm install ic-combobox
 ```
 
 or ...
 
 ```sh
-$ bower install ic-autocomplete
+$ bower install ic-combobox
 ```
 
 or just grab your preferred distribution from `dist/`.
@@ -29,13 +29,13 @@ Then include the script(s) into your application:
 
 ### npm+browserify
 
-`require('ic-autocomplete')`
+`require('ic-combobox')`
 
 ### amd
 
-Register `ic-autocomplete` as a [package][rjspackage], then:
+Register `ic-combobox` as a [package][rjspackage], then:
 
-`define(['ic-autocomplete'], ...)`
+`define(['ic-combobox'], ...)`
 
 ### named-amd
 
@@ -44,9 +44,9 @@ You ought to know what you're doing if this is the case.
 ### globals
 
 `<script src="bower_components/ic-styled/main.js"></script>`
-`<script src="bower_components/ic-autocomplete/dist/globals/main.js"></script>`
+`<script src="bower_components/ic-combobox/dist/globals/main.js"></script>`
 
-{{ic-autocomplete}} Usage
+{{ic-combobox}} Usage
 ------------------
 
 Contributing
