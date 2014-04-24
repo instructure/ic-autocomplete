@@ -2,6 +2,25 @@
 <meta charset="utf-8">
 <title>ic-combobox demo</title>
 <link rel="stylesheet" href="http://instructure.github.io/ic-ember/shared/styles.css">
+<style>
+ic-combobox {
+  position: relative;
+}
+
+ic-combobox input {
+  padding: 4px;
+  padding-right: 20px;
+  font-size: 16px;
+}
+
+ic-combobox-toggle {
+  outline: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+</style>
 <script type="text/x-handlebars">
 <div class="padbox">
   {{#ic-combobox}}
