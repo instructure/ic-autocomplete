@@ -3,6 +3,7 @@
 <title>ic-combobox demo</title>
 <link rel="stylesheet" href="http://instructure.github.io/ic-ember/shared/styles.css">
 <style>
+ic-combobox { width: 200px; }
 </style>
 <script type="text/x-handlebars">
 <div class="padbox">
@@ -20,7 +21,7 @@
     {{ic-combobox-input}} {{#ic-combobox-toggle}}▼{{/ic-combobox-toggle}}
     {{#ic-combobox-list}}
       {{#each states}}
-        {{#ic-combobox-option value=id}}{{name}}{{/ic-combobox-option}}
+        {{#ic-combobox-option value=id label=id}}{{name}}{{/ic-combobox-option}}
       {{/each}}
     {{/ic-combobox-list}}
   {{/ic-combobox}}
