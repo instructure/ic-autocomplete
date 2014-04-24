@@ -7,9 +7,13 @@ ic-combobox { width: 200px; }
 </style>
 <script type="text/x-handlebars">
 <div class="padbox">
+  <p>
+    State 1: {{state1}}<br>
+    State 2: {{state2}}
+  </p>
 
-  {{#ic-combobox id="one"}}
-    {{ic-combobox-input}} {{#ic-combobox-toggle}}▼{{/ic-combobox-toggle}}
+  {{#ic-combobox id="one" value=state1}}
+    {{ic-combobox-input}} {{#ic-combobox-toggle}}▾{{/ic-combobox-toggle}}
     {{#ic-combobox-list}}
       {{#each states}}
         {{#ic-combobox-option value=id}}{{name}}{{/ic-combobox-option}}
@@ -17,8 +21,8 @@ ic-combobox { width: 200px; }
     {{/ic-combobox-list}}
   {{/ic-combobox}}
 
-  {{#ic-combobox id="two"}}
-    {{ic-combobox-input}} {{#ic-combobox-toggle}}▼{{/ic-combobox-toggle}}
+  {{#ic-combobox id="two" value=state2}}
+    {{ic-combobox-input}} {{#ic-combobox-toggle}}▾{{/ic-combobox-toggle}}
     {{#ic-combobox-list}}
       {{#each states}}
         {{#ic-combobox-option value=id label=id}}{{name}}{{/ic-combobox-option}}
@@ -44,7 +48,8 @@ ic-combobox { width: 200px; }
   App = Ember.Application.create();
 
   App.ApplicationController = Ember.Controller.extend({
-    states: states()
+    states: states(),
+    state1: 'UT'
   });
 
   function states() {
