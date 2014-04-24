@@ -1,9 +1,18 @@
 ic-combobox {
   display: inline-block;
+  position: relative;
 }
 
 ic-combobox-list {
   display: none;
+  position: absolute;
+  border: 1px solid #aaa;
+  top: 100%;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  max-height: 400px;
+  max-height: 80vh;
+  overflow: auto;
 }
 
 ic-combobox-list[is-open] {
@@ -12,9 +21,25 @@ ic-combobox-list[is-open] {
 
 ic-combobox-option {
   display: block;
+  padding: 2px 0;
 }
 
 ic-combobox-toggle {
   display: inline-block;
+  outline: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 12px;
 }
+
+.ic-combobox-input {
+  padding: 4px;
+  padding-right: 20px;
+}
+
+ic-combobox-toggle {
+}
+
+
 
