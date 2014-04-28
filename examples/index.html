@@ -14,8 +14,8 @@ ic-combobox { width: 200px; }
 
   <pre>{{filteredStates.length}}</pre>
 
-  {{#ic-combobox id="one" value=state1}}
-    {{ic-combobox-input value=stateFilter}} {{#ic-combobox-toggle}}▾{{/ic-combobox-toggle}}
+  {{#ic-combobox id="one" value=state1 input-value=stateFilter}}
+    {{ic-combobox-input}} {{#ic-combobox-toggle}}▾{{/ic-combobox-toggle}}
     {{#ic-combobox-list}}
       {{#each filteredStates}}
         {{#ic-combobox-option value=id}}{{name}}{{/ic-combobox-option}}
