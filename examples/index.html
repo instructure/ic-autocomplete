@@ -12,10 +12,12 @@ ic-combobox { width: 200px; }
     State 2: {{state2}}
   </p>
 
+  <pre>{{filteredStates.length}}</pre>
+
   {{#ic-combobox id="one" value=state1}}
-    {{ic-combobox-input}} {{#ic-combobox-toggle}}▾{{/ic-combobox-toggle}}
+    {{ic-combobox-input value=stateFilter}} {{#ic-combobox-toggle}}▾{{/ic-combobox-toggle}}
     {{#ic-combobox-list}}
-      {{#each states}}
+      {{#each filteredStates}}
         {{#ic-combobox-option value=id}}{{name}}{{/ic-combobox-option}}
       {{/each}}
     {{/ic-combobox-list}}
@@ -49,7 +51,17 @@ ic-combobox { width: 200px; }
 
   App.ApplicationController = Ember.Controller.extend({
     states: states(),
-    state1: 'UT'
+    //state1: 'UT',
+    filteredStates: function() {
+      var states = this.get('states');
+      if (!this.get('stateFilter')) {
+        return states;
+      }
+      var filter = new RegExp(this.get('stateFilter'), 'i');
+      return this.get('states').filter(function(state) {
+        return filter.test(state.name);
+      });
+    }.property('states', 'stateFilter')
   });
 
   function states() {

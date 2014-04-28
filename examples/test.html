@@ -1,0 +1,18 @@
+<!doctype html public "display of affection">
+<meta charset="utf-8">
+<title>ic-combobox demo</title>
+<link rel="stylesheet" href="http://instructure.github.io/ic-ember/shared/styles.css">
+
+<input id="input" role="combobox" aria-autocomplete="list">
+
+<script>
+var states = ['utah', 'idaho', 'wyoming'];
+var current = -1;
+input.addEventListener('keydown', function(event) {
+  if (++current === states.length) current = 0;
+  this.value = states[current];
+  event.preventDefault();
+  this.select();
+}, false);
+</script>
+
