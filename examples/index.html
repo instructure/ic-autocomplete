@@ -27,11 +27,11 @@ ic-combobox { width: 200px; }
   {{/ic-combobox}}
 
   {{#ic-combobox
-    value=state1
-    input-value=stateFilter
+    value=state2
+    input-value=imageFilter
     placeholder="Pick a state"
   }}
-    {{#each filteredStates}}
+    {{#each filteredImages}}
       {{#ic-combobox-option value=id label=name}}
         {{x-state name=name}}
       {{/ic-combobox-option}}
@@ -63,18 +63,28 @@ ic-combobox { width: 200px; }
 
   App.ApplicationController = Ember.Controller.extend({
     states: states(),
-    state1: 'UT',
-    state2: 'AZ',
-    filteredStates: function() {
+    state1: 'IL',
+    state2: 'UT',
+
+    filter: function(term) {
       var states = this.get('states');
-      if (!this.get('stateFilter')) {
+      if (!term) {
         return states;
       }
-      var filter = new RegExp(this.get('stateFilter'), 'i');
+      var filter = new RegExp(term, 'i');
       return this.get('states').filter(function(state) {
         return filter.test(state.name);
       });
-    }.property('states', 'stateFilter')
+    },
+
+    filteredStates: function() {
+      return this.filter(this.get('stateFilter'));
+    }.property('states', 'stateFilter'),
+
+    filteredImages: function() {
+      return this.filter(this.get('imageFilter'));
+    }.property('states', 'imageFilter')
+
   });
 
   App.XStateComponent = Ember.Component.extend({
