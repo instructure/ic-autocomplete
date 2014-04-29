@@ -6,6 +6,7 @@ ic-combobox {
 ic-combobox-list {
   display: none;
   position: absolute;
+  z-index: 0;
   border: 1px solid #aaa;
   top: 100%;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
@@ -49,6 +50,8 @@ ic-combobox-toggle {
 }
 
 .ic-combobox-input {
+  position: relative;
+  z-index: 1;
   padding-right: 20px;
   width: 100%;
   box-sizing: border-box;
