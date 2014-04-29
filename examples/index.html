@@ -21,8 +21,9 @@ ic-combobox { width: 200px; }
   {{/ic-combobox}}
 
   <select>
-    <option>foo</option>
-    <option>bar</option>
+    {{#each states}}
+      <option>{{name}}</option>
+    {{/each}}
   </select>
 
 </div>
