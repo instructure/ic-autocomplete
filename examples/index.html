@@ -14,9 +14,15 @@ ic-combobox { width: 200px; }
 
   <pre>{{filteredStates.length}}</pre>
 
-  {{#ic-combobox id="one" value=state1 input-value=stateFilter}}
+  {{#ic-combobox
+    value=state1
+    input-value=stateFilter
+    placeholder="Pick a state"
+  }}
     {{#each filteredStates}}
       {{#ic-combobox-option value=id label=name}}{{name}}{{/ic-combobox-option}}
+    {{else}}
+      <div style="padding: 2px 16px;">No results</div>
     {{/each}}
   {{/ic-combobox}}
 

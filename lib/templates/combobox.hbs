@@ -1,6 +1,18 @@
-{{input class="ic-combobox-input" value=inputValueBuffer role="combobox"}}
+{{input
+  class="ic-combobox-input"
+  value=inputValueBuffer
+  aria-label=placeholder
+  placeholder=placeholder
+  aria-autocomplete="list"
+}}
 
-<ic-combobox-list>
+<ic-combobox-toggle aria-hidden="true">▾</ic-combobox-toggle>
+
+{{! should have role of listbox, but voiceover doesn't get it }}
+<ic-combobox-list
+  role="menu"
+  {{bind-attr aria-activedescendant=selected.elementId}}
+>
   {{yield}}
 </ic-combobox-list>
 
