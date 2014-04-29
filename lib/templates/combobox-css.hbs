@@ -15,7 +15,7 @@ ic-combobox-list {
   overflow: auto;
 }
 
-ic-combobox-list[is-open] {
+ic-combobox.is-open ic-combobox-list {
   display: block;
 }
 
@@ -25,7 +25,8 @@ ic-combobox-option {
   cursor: default;
 }
 
-ic-combobox-option[is-focused] {
+ic-combobox-option:focus {
+  outline: 0;
   color: white;
   background: hsl(200, 50%, 50%);
 }
