@@ -13,6 +13,7 @@ ic-combobox-list {
   max-height: 400px;
   max-height: 80vh;
   overflow: auto;
+  font-size: 12px;
 }
 
 ic-combobox[is-open] ic-combobox-list {
@@ -21,7 +22,7 @@ ic-combobox[is-open] ic-combobox-list {
 
 ic-combobox-option {
   display: block;
-  padding: 3px 10px;
+  padding: 2px 16px;
   cursor: default;
 }
 
@@ -29,6 +30,12 @@ ic-combobox-option:focus {
   outline: 0;
   color: white;
   background: hsl(200, 50%, 50%);
+}
+
+ic-combobox-option[selected]:before {
+  content: '✓';
+  position: absolute;
+  left: 4px;
 }
 
 ic-combobox-toggle {
