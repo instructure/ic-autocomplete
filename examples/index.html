@@ -26,6 +26,22 @@ ic-combobox { width: 200px; }
     {{/each}}
   {{/ic-combobox}}
 
+  {{#ic-combobox
+    value=state1
+    input-value=stateFilter
+    placeholder="Pick a state"
+  }}
+    {{#each filteredStates}}
+      {{#ic-combobox-option value=id label=name}}
+        {{x-state name=name}}
+      {{/ic-combobox-option}}
+    {{else}}
+      <div style="padding: 2px 16px;">No results</div>
+    {{/each}}
+  {{/ic-combobox}}
+
+
+
   <select>
     {{#each states}}
       <option>{{name}}</option>
@@ -41,6 +57,7 @@ ic-combobox { width: 200px; }
 <script src="../bower_components/ic-styled/main.js"></script>
 <!--<script src="../dist/globals/main.js"></script>-->
 <script src="http://localhost:4200/globals/main.js"></script>
+
 <script>
   App = Ember.Application.create();
 
@@ -60,22 +77,28 @@ ic-combobox { width: 200px; }
     }.property('states', 'stateFilter')
   });
 
+  App.XStateComponent = Ember.Component.extend({
+    tagName: 'img',
+    attributeBindings: ['src', 'height'],
+    height: 200,
+    src: function() {
+      var path = Ember.String.underscore(this.get('name'));
+      return "http://www.50states.com/maps/"+path+".gif";
+    }.property('name')
+  });
+
   function states() {
     return [
       { id: "AL", name: "Alabama"},
       { id: "AK", name: "Alaska"},
-      { id: "AS", name: "American Samoa"},
       { id: "AZ", name: "Arizona"},
       { id: "AR", name: "Arkansas"},
       { id: "CA", name: "California"},
       { id: "CO", name: "Colorado"},
       { id: "CT", name: "Connecticut"},
       { id: "DE", name: "Delaware"},
-      { id: "DC", name: "District Of Columbia"},
-      { id: "FM", name: "Federated States Of Micronesia"},
       { id: "FL", name: "Florida"},
       { id: "GA", name: "Georgia"},
-      { id: "GU", name: "Guam"},
       { id: "HI", name: "Hawaii"},
       { id: "ID", name: "Idaho"},
       { id: "IL", name: "Illinois"},
@@ -85,7 +108,6 @@ ic-combobox { width: 200px; }
       { id: "KY", name: "Kentucky"},
       { id: "LA", name: "Louisiana"},
       { id: "ME", name: "Maine"},
-      { id: "MH", name: "Marshall Islands"},
       { id: "MD", name: "Maryland"},
       { id: "MA", name: "Massachusetts"},
       { id: "MI", name: "Michigan"},
@@ -101,13 +123,10 @@ ic-combobox { width: 200px; }
       { id: "NY", name: "New York"},
       { id: "NC", name: "North Carolina"},
       { id: "ND", name: "North Dakota"},
-      { id: "MP", name: "Northern Mariana Islands"},
       { id: "OH", name: "Ohio"},
       { id: "OK", name: "Oklahoma"},
       { id: "OR", name: "Oregon"},
-      { id: "PW", name: "Palau"},
       { id: "PA", name: "Pennsylvania"},
-      { id: "PR", name: "Puerto Rico"},
       { id: "RI", name: "Rhode Island"},
       { id: "SC", name: "South Carolina"},
       { id: "SD", name: "South Dakota"},
@@ -115,7 +134,6 @@ ic-combobox { width: 200px; }
       { id: "TX", name: "Texas"},
       { id: "UT", name: "Utah"},
       { id: "VT", name: "Vermont"},
-      { id: "VI", name: "Virgin Islands"},
       { id: "VA", name: "Virginia"},
       { id: "WA", name: "Washington"},
       { id: "WV", name: "West Virginia"},
