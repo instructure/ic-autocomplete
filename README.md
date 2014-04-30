@@ -65,11 +65,7 @@ You ought to know what you're doing if this is the case.
   -->
   on-input="filterStates"
 
-  <!--
-    When the user makes a selection, this action is sent. You may
-    want to reset your list here so when they open it again they see all the
-    options
-  -->
+  <!-- When the user makes a selection, this action is sent -->
   on-select="selectState"
 
   placeholder="Pick a state"
