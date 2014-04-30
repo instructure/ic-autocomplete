@@ -71,7 +71,7 @@ ic-combobox { width: 200px; }
       if (!term) {
         return states;
       }
-      var filter = new RegExp(term, 'i');
+      var filter = new RegExp('^'+term, 'i');
       return this.get('states').filter(function(state) {
         return filter.test(state.name);
       });
