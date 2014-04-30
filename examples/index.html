@@ -17,6 +17,7 @@ ic-autocomplete { width: 200px; }
   {{#ic-autocomplete
     value=state1
     on-input="filterStates"
+    on-select="selectState"
     placeholder="Pick a state"
   }}
     {{#each filteredStates}}
@@ -71,6 +72,10 @@ ic-autocomplete { width: 200px; }
 
       filterImages: function(autocomplete, term) {
         this.set('filteredImages', this.filter(term));
+      },
+
+      selectState: function(autocomplete, state) {
+        this.set('filterStates', findStates());
       }
     },
 
