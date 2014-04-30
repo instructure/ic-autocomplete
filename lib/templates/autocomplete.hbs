@@ -2,16 +2,11 @@
   value=inputValueBuffer
   aria-label=placeholder
   placeholder=placeholder
-  aria-autocomplete="both"
 }}
 
 {{#ic-autocomplete-toggle}}▾{{/ic-autocomplete-toggle}}
 
-{{! should have role of listbox, but voiceover doesn't get it }}
-<ic-autocomplete-list
-  role="menu"
-  {{bind-attr aria-activedescendant=selected.elementId}}
->
+<ic-autocomplete-list role="listbox">
   {{yield}}
 </ic-autocomplete-list>
 
