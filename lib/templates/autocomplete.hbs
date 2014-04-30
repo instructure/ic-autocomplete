@@ -1,17 +1,17 @@
-{{ic-combobox-input
+{{ic-autocomplete-input
   value=inputValueBuffer
   aria-label=placeholder
   placeholder=placeholder
-  aria-autocomplete="list"
+  aria-autocomplete="both"
 }}
 
-{{#ic-combobox-toggle}}▾{{/ic-combobox-toggle}}
+{{#ic-autocomplete-toggle}}▾{{/ic-autocomplete-toggle}}
 
 {{! should have role of listbox, but voiceover doesn't get it }}
-<ic-combobox-list
+<ic-autocomplete-list
   role="menu"
   {{bind-attr aria-activedescendant=selected.elementId}}
 >
   {{yield}}
-</ic-combobox-list>
+</ic-autocomplete-list>
 

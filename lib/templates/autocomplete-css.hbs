@@ -1,9 +1,9 @@
-ic-combobox {
+ic-autocomplete {
   display: inline-block;
   position: relative;
 }
 
-ic-combobox-list {
+ic-autocomplete-list {
   display: none;
   position: absolute;
   z-index: 0;
@@ -17,29 +17,29 @@ ic-combobox-list {
   box-sizing: border-box;
 }
 
-ic-combobox[is-open] ic-combobox-list {
+ic-autocomplete[is-open] ic-autocomplete-list {
   display: block;
 }
 
-ic-combobox-option {
+ic-autocomplete-option {
   display: block;
   padding: 2px 16px;
   cursor: default;
 }
 
-ic-combobox-option:focus {
+ic-autocomplete-option:focus {
   outline: 0;
   color: white;
   background: hsl(200, 50%, 50%);
 }
 
-ic-combobox-option[selected]:before {
+ic-autocomplete-option[selected]:before {
   content: '✓';
   position: absolute;
   left: 4px;
 }
 
-ic-combobox-toggle {
+ic-autocomplete-toggle {
   display: inline-block;
   outline: none;
   position: absolute;
@@ -50,7 +50,7 @@ ic-combobox-toggle {
   z-index: 1;
 }
 
-.ic-combobox-input {
+.ic-autocomplete-input {
   position: relative;
   z-index: 1;
   padding-right: 20px;

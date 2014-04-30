@@ -1,9 +1,9 @@
 <!doctype html public "display of affection">
 <meta charset="utf-8">
-<title>ic-combobox demo</title>
+<title>ic-autocomplete demo</title>
 <link rel="stylesheet" href="http://instructure.github.io/ic-ember/shared/styles.css">
 <style>
-ic-combobox { width: 200px; }
+ic-autocomplete { width: 200px; }
 </style>
 <script type="text/x-handlebars">
 <div class="padbox">
@@ -14,31 +14,32 @@ ic-combobox { width: 200px; }
 
   <pre>{{filteredStates.length}}</pre>
 
-  {{#ic-combobox
+  {{#ic-autocomplete
     value=state1
     on-input="filterStates"
     placeholder="Pick a state"
   }}
     {{#each filteredStates}}
-      {{#ic-combobox-option value=id label=name}}{{name}}{{/ic-combobox-option}}
+      {{#ic-autocomplete-option value=id label=name}}{{name}}{{/ic-autocomplete-option}}
     {{else}}
       <div style="padding: 2px 16px;">No results</div>
     {{/each}}
-  {{/ic-combobox}}
+  {{/ic-autocomplete}}
 
-  {{#ic-combobox
+  {{#ic-autocomplete
     value=state2
     on-input="filterImages"
     placeholder="Pick a state"
   }}
     {{#each filteredImages}}
-      {{#ic-combobox-option value=id label=name}}
-        {{x-state name=name}}
-      {{/ic-combobox-option}}
+      {{#ic-autocomplete-option value=id label=name}}
+        {{name}}
+        {{! x-state name=name}}
+      {{/ic-autocomplete-option}}
     {{else}}
       <div style="padding: 2px 16px;">No results</div>
     {{/each}}
-  {{/ic-combobox}}
+  {{/ic-autocomplete}}
 
 
 
@@ -64,11 +65,11 @@ ic-combobox { width: 200px; }
   App.ApplicationController = Ember.Controller.extend({
 
     actions: {
-      filterStates: function(combobox, term) {
+      filterStates: function(autocomplete, term) {
         this.set('filteredStates', this.filter(term));
       },
 
-      filterImages: function(combobox, term) {
+      filterImages: function(autocomplete, term) {
         this.set('filteredImages', this.filter(term));
       }
     },
