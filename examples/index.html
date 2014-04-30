@@ -16,7 +16,7 @@ ic-combobox { width: 200px; }
 
   {{#ic-combobox
     value=state1
-    input-value=stateFilter
+    on-input="filterStates"
     placeholder="Pick a state"
   }}
     {{#each filteredStates}}
@@ -28,7 +28,7 @@ ic-combobox { width: 200px; }
 
   {{#ic-combobox
     value=state2
-    input-value=imageFilter
+    on-input="filterImages"
     placeholder="Pick a state"
   }}
     {{#each filteredImages}}
@@ -62,28 +62,33 @@ ic-combobox { width: 200px; }
   App = Ember.Application.create();
 
   App.ApplicationController = Ember.Controller.extend({
-    states: states(),
-    state1: 'IL',
-    state2: 'UT',
 
-    filter: function(term) {
-      var states = this.get('states');
-      if (!term) {
-        return states;
+    actions: {
+      filterStates: function(combobox, term) {
+        this.set('filteredStates', this.filter(term));
+      },
+
+      filterImages: function(combobox, term) {
+        this.set('filteredImages', this.filter(term));
       }
-      var filter = new RegExp('^'+term, 'i');
-      return this.get('states').filter(function(state) {
-        return filter.test(state.name);
-      });
     },
 
-    filteredStates: function() {
-      return this.filter(this.get('stateFilter'));
-    }.property('states', 'stateFilter'),
+    state1: 'IL',
 
-    filteredImages: function() {
-      return this.filter(this.get('imageFilter'));
-    }.property('states', 'imageFilter')
+    state2: 'UT',
+
+    filteredStates: findStates(),
+
+    filteredImages: findStates(),
+
+    filter: function(term) {
+      var states = findStates();
+      if (!term) return states;
+      var filter = new RegExp('^'+term, 'i');
+      return states.filter(function(state) {
+        return filter.test(state.name);
+      });
+    }
 
   });
 
@@ -97,7 +102,7 @@ ic-combobox { width: 200px; }
     }.property('name')
   });
 
-  function states() {
+  function findStates() {
     return [
       { id: "AL", name: "Alabama"},
       { id: "AK", name: "Alaska"},
