@@ -1,0 +1,14 @@
+{
+  "name": "ember-canary",
+  "_cacheHeaders": {
+    "ETag": "\"b1ade8ecf4f2d6e222e2aa0eb864486d\"",
+    "Last-Modified": "Tue, 22 Apr 2014 22:14:17 GMT",
+    "Content-Length": "1528399",
+    "Content-Type": "text/javascript"
+  },
+  "_release": "e-tag:b1ade8ecf",
+  "main": "index.js",
+  "_source": "http://builds.emberjs.com/canary/ember.js",
+  "_target": "*",
+  "_originalSource": "http://builds.emberjs.com/canary/ember.js"
+}
