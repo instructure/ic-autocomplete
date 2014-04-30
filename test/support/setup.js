@@ -2,7 +2,7 @@ emq.globalize();
 
 setResolver(Ember.DefaultResolver.extend({
   testSubjects: {
-    'component:ic-autocomplete': ic.modal.AutocompleteComponent
+    'component:ic-autocomplete': ic.autocomplete.AutocompleteComponent
   },
   resolve: function(fullName) {
     return this.testSubjects[fullName] || this._super.apply(this, arguments);

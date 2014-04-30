@@ -5,8 +5,8 @@ module.exports = function(broccoli) {
   var tree = broccoli.makeTree('lib');
   var templates = templateFilter(tree, {module: true});
   var modules = moduleFilter(templates, {
-    global: 'ic.combobox',
-    packageName: 'ic-combobox',
+    global: 'ic.autocomplete',
+    packageName: 'ic-autocomplete',
     main: 'main',
     shim: {
       'ember': 'Ember'

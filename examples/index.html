@@ -94,7 +94,7 @@ ic-autocomplete { width: 200px; }
       if (!term) return states;
       var filter = new RegExp('^'+term, 'i');
       return states.filter(function(state) {
-        return filter.test(state.name);
+        return filter.test(state.name) || filter.test(state.id);
       });
     }
 

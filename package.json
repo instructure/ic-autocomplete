@@ -1,7 +1,7 @@
 {
-  "name": "ic-combobox",
+  "name": "ic-autocomplete",
   "version": "0.0.0",
-  "description": "accessible combobox ember component",
+  "description": "accessible autocomplete ember component",
   "main": "dist/cjs/main",
   "tags": [
     "ember",
