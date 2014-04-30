@@ -4,6 +4,9 @@
 <link rel="stylesheet" href="http://instructure.github.io/ic-ember/shared/styles.css">
 <style>
 ic-autocomplete { width: 200px; }
+ic-autocomplete-list {
+  max-height: 200px;
+}
 </style>
 
 <header class="branding padbox">
@@ -108,7 +111,7 @@ ic-autocomplete { width: 200px; }
   App.XStateComponent = Ember.Component.extend({
     tagName: 'img',
     attributeBindings: ['src', 'height'],
-    height: 200,
+    height: 100,
     src: function() {
       var path = Ember.String.underscore(this.get('name'));
       return "http://www.50states.com/maps/"+path+".gif";
