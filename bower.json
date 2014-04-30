@@ -1,0 +1,19 @@
+{
+  "name": "ic-autocomplete-demo",
+  "version": "0.0.1",
+  "homepage": "https://github.com/instructure/ic-autocomplete",
+  "authors": [
+    "Ryan Florence <rpflorence@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ic-autocomplete": "~0.0.1"
+  }
+}
