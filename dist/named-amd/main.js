@@ -419,6 +419,12 @@ define("ic-autocomplete/autocomplete-input",
        */
 
       focusOptionAtIndex: function(index) {
+        var options = this.get('options');
+        if (index === -1) {
+          index = options.get('length') - 1;
+        } else if (index === options.get('length')) {
+          index = 0;
+        }
         var option = this.get('options').objectAt(index);
         if (!option) return;
         this.focusOption(option);
