@@ -2,7 +2,12 @@ emq.globalize();
 
 setResolver(Ember.DefaultResolver.extend({
   testSubjects: {
-    'component:ic-autocomplete': ic.autocomplete.AutocompleteComponent
+    'component:ic-autocomplete': ic.autocomplete.AutocompleteComponent,
+    'component:ic-autocomplete-option': ic.autocomplete.AutocompleteOptionComponent,
+    'component:ic-autocomplete-toggle': ic.autocomplete.AutocompleteToggleComponent,
+    'component:ic-autocomplete-input': ic.autocomplete.AutocompleteInputComponent,
+    'template:components/ic-autocomplete': ic.autocomplete.autocompleteTemplate,
+    'template:components/ic-autocomplete-css': ic.autocomplete.autocompleteCss
   },
   resolve: function(fullName) {
     return this.testSubjects[fullName] || this._super.apply(this, arguments);
