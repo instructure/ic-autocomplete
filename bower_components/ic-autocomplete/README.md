@@ -65,7 +65,11 @@ You ought to know what you're doing if this is the case.
   -->
   on-input="filterStates"
 
-  <!-- When the user makes a selection, this action is sent -->
+  <!-- 
+    When the user makes a selection, this action is sent, which is a
+    great opportunity to reset your data so the list is fully populated
+    when the user opens the menu again
+  -->
   on-select="selectState"
 
   placeholder="Pick a state"

@@ -215,6 +215,7 @@ define("ic-autocomplete/autocomplete-input",
 
       close: function() {
         if (!this.get('isOpen')) return;
+        this.set('autocompletedOption', null);
         this.set('isOpen', false);
         var focusedOption = this.get('focusedOption');
         if (focusedOption) {
@@ -300,7 +301,7 @@ define("ic-autocomplete/autocomplete-input",
       keydownMap: {
         27/*esc*/:   'close',
         32/*space*/: 'maybeSelectFocusedOption',
-        13/*enter*/: 'maybeSelectFocusedOptionOnEnter',
+        13/*enter*/: 'maybeSelectOnEnter',
         40/*down*/:  'focusNext',
         38/*up*/:    'focusPrevious',
         8/*backspace*/: 'startBackspacing'
@@ -341,22 +342,20 @@ define("ic-autocomplete/autocomplete-input",
           return;
         }
         var first = this.get('options').objectAt(0);
+        if (first == this.get('autocompletedOption')) {
+          return;
+        }
         var label = first.get('label');
         var input = this.get('inputValueBuffer');
         if (input === '') {
           return;
         }
         var fragment = label.substring(input.length);
-        var autocompleteValues = label+':'+input;
-        if (autocompleteValues == this.get('lastAutocompleteValues')) {
-          return;
-        }
-        this.set('lastAutocompleteValues', autocompleteValues);
         this.set('ignoreInputValueBuffer', true);
         var el = this.get('input');
         el.value = label;
         el.setSelectionRange(input.length, label.length);
-        this.selectOption(first, {close: false, focusOption: false});
+        this.set('autocompletedOption', first);
       },
 
       /*
@@ -378,7 +377,7 @@ define("ic-autocomplete/autocomplete-input",
         if (this.get('selected')) {
           return;
         }
-        this.sendAction('on-input', this, this.get('input.value'));
+        this.sendAction('on-input', this, this.get('inputValueBuffer'));
         Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
       }.observes('inputValueBuffer'),
 
@@ -419,6 +418,12 @@ define("ic-autocomplete/autocomplete-input",
        */
 
       focusOptionAtIndex: function(index) {
+        var options = this.get('options');
+        if (index === -1) {
+          index = options.get('length') - 1;
+        } else if (index === options.get('length')) {
+          index = 0;
+        }
         var option = this.get('options').objectAt(index);
         if (!option) return;
         this.focusOption(option);
@@ -448,18 +453,22 @@ define("ic-autocomplete/autocomplete-input",
        * Selects the focused item if there is one.
        */
 
-      maybeSelectFocusedOption: function(event) {
-        event.preventDefault();
+      maybeSelectFocusedOption: function() {
         var focused = this.get('focusedOption');
         if (focused) this.selectOption(focused);
       },
 
-      maybeSelectFocusedOptionOnEnter: function(event) {
-        this.maybeSelectFocusedOption(event);
-        this.get('input').select();
+      maybeSelectAutocompletedOption: function() {
+        var option = this.get('autocompletedOption');
+        if (option) this.selectOption(option);
       },
 
-
+      maybeSelectOnEnter: function(event) {
+        event.preventDefault();
+        this.maybeSelectFocusedOption();
+        this.maybeSelectAutocompletedOption();
+        this.get('input').select();
+      },
 
       /*
        * Returns the native <input>
@@ -481,9 +490,17 @@ define("ic-autocomplete/autocomplete-input",
 
       // focusOut for options and input here
       focusOut: function() {
+        var autocompletedOption = this.get('autocompletedOption');
         // later for document.activeElement to be correct
         Ember.run.later(this, function() {
           if (!this.get('element').contains(document.activeElement)) {
+            if (autocompletedOption) {
+              this.selectOptionWithoutPotentialRecursion(autocompletedOption);
+              // TODO: this entire method is crap, we should not be sending the
+              // same action in two places, need to clean up the select/focus/autocomplete
+              // stuff
+              this.sendAction('on-select', this, autocompletedOption);
+            }
             this.close();
           }
         }, 0);
