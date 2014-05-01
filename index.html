@@ -30,6 +30,7 @@ ic-autocomplete-list {
   {{#ic-autocomplete
     value=state1
     on-input="filterStates"
+    on-select="resetStates"
     placeholder="Pick a state"
   }}
     {{#each filteredStates}}
@@ -42,6 +43,7 @@ ic-autocomplete-list {
   {{#ic-autocomplete
     value=state2
     on-input="filterImages"
+    on-select="resetImages"
     placeholder="Pick a state"
   }}
     {{#each filteredImages}}
@@ -94,6 +96,14 @@ ic-autocomplete-list {
 
       filterImages: function(autocomplete, term) {
         this.set('filteredImages', this.filter(term));
+      },
+
+      resetStates: function() {
+        this.set('filteredStates', findStates());
+      },
+
+      resetImages: function() {
+        this.set('filteredImages', findStates());
       }
     },
 
