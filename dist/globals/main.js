@@ -207,7 +207,6 @@ exports["default"] = Ember.Component.extend({
 
   close: function() {
     if (!this.get('isOpen')) return;
-    this.set('autocompletedOption', null);
     this.set('isOpen', false);
     var focusedOption = this.get('focusedOption');
     if (focusedOption) {
@@ -325,6 +324,7 @@ exports["default"] = Ember.Component.extend({
   }.on('keyDown'),
 
   autocompleteText: function() {
+    this.set('autocompletedOption', null);
     if (!this.get('isOpen') || !this.get('options.length')) {
       return;
     }
