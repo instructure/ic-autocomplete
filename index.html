@@ -120,8 +120,9 @@ ic-autocomplete-list {
 
   App.XStateComponent = Ember.Component.extend({
     tagName: 'img',
-    attributeBindings: ['src', 'height'],
+    attributeBindings: ['src', 'height', 'alt'],
     height: 100,
+    alt: Ember.computed.alias('name'),
     src: function() {
       var path = Ember.String.underscore(this.get('name'));
       return "http://www.50states.com/maps/"+path+".gif";
