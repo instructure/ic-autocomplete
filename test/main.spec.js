@@ -92,7 +92,26 @@ test('typing in an open list returns focus to the input', function() {
   setup(this);
   openWithDownArrow();
   autocomplete.simulate('keydown', {keyCode: 85});
-          equal(input[0], document.activeElement);
+          assertFocus(input[0]);
+});
+
+test('typing in an open list selects input', function() {
+  setup(this);
+  selectOptionAtIndex(0);
+  openWithDownArrow();
+  autocomplete.simulate('keydown', {keyCode: 85});
+          assertFocus(input[0]);
+          assertSelection('Utah');
+          // key up will then wipe it all out, as expected, but
+          // that's just the browser, not us, no need to test
+});
+
+test('backspace in an open does not select, but focuses', function() {
+  setup(this);
+  selectOptionAtIndex(0);
+  openWithDownArrow();
+  autocomplete.simulate('keydown', {keyCode: 8});
+          assertSelection('');
 });
 
 test('autocompletes text', function() {
@@ -100,7 +119,7 @@ test('autocompletes text', function() {
   input[0].value = 'u';
   input.simulate('keyup', {keyCode: 85});
           equal(input[0].value, 'Utah');
-          equal(window.getSelection().toString(), 'tah', 'selects fragment');
+          assertSelection('tah', 'selects fragment');
 });
 
 test('does not autocomplete on backspace', function() {
@@ -108,11 +127,11 @@ test('does not autocomplete on backspace', function() {
   input[0].value = 'Uta';
   input.simulate('keyup', {keyCode: 65});
           equal(input[0].value, 'Utah');
-          equal(window.getSelection().toString(), 'h', 'selects fragment');
+          assertSelection('h', 'selects fragment');
   input[0].value = 'Ut';
   input.simulate('keydown', {keyCode: 8});
-  equal(input[0].value, 'Ut');
-  equal(window.getSelection().toString(), '');
+          equal(input[0].value, 'Ut');
+          assertSelection('', 'selects fragment');
 });
 
 test('selects autocompleted option on focusOut', function() {
@@ -120,7 +139,7 @@ test('selects autocompleted option on focusOut', function() {
   input[0].value = 'u';
   input.simulate('keyup', {keyCode: 85});
           equal(input[0].value, 'Utah');
-          equal(window.getSelection().toString(), 'tah', 'selects fragment');
+          assertSelection('tah', 'selects fragment');
   input.blur();
   Ember.run.next(function() {
           assertSelected(lookupComponent('UT'));
@@ -157,6 +176,9 @@ test('aria attributes', function() {
 });
 
 
+function assertSelection(expected, desc) {
+  equal(window.getSelection().toString(), expected, desc);
+}
 
 function navigateList(direction) {
   var code = direction == 'up' ? 38 : /*down*/40;
