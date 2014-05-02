@@ -3,15 +3,16 @@ moduleForComponent('ic-autocomplete', 'AutocompleteComponent', {
     'component:ic-autocomplete-option',
     'component:ic-autocomplete-toggle',
     'component:ic-autocomplete-input',
+    'component:ic-autocomplete-list',
     'template:components/ic-autocomplete-css'
   ]
 });
 
-var autocomplete, list, options, toggle, input;
+var component, autocomplete, list, options, toggle, input;
 
 test('renders', function() {
   setup(this);
-          equal(autocomplete.state, 'inDOM');
+          equal(component.state, 'inDOM');
 });
 
 test('opening and closing via the toggle', function() {
@@ -25,7 +26,7 @@ test('opening and closing via the toggle', function() {
 
 test('opening on down arrow', function() {
   setup(this);
-  open();
+  openWithDownArrow();
           ok(list.is(':visible'), 'list is visible');
 });
 
@@ -37,35 +38,35 @@ test('opens on input', function() {
 
 test('closes on focusOut', function() {
   setup(this);
-  open(this);
+  openWithDownArrow();
   input.blur();
           assertClosed();
 });
 
 test('closes on escape', function() {
   setup(this);
-  open(this);
+  openWithDownArrow();
   input.simulate('keydown', {keyCode: 27});
           assertClosed();
 });
 
 test('up/down navigate the list', function() {
   setup(this);
-  open(this);
-          equal(options[0], document.activeElement);
-  list.simulate('keydown', {keyCode: 40});
-          equal(options[1], document.activeElement, 'down');
-  list.simulate('keydown', {keyCode: 38});
-          equal(options[0], document.activeElement, 'up');
-  list.simulate('keydown', {keyCode: 38});
-          equal(options[1], document.activeElement, 'loops up');
-  list.simulate('keydown', {keyCode: 40});
-          equal(options[0], document.activeElement, 'loops down');
+  openWithDownArrow();
+          assertFocus(options[0], 'on UT');
+  navigateList('down');
+          assertFocus(options[1], 'down to IL');
+  navigateList('up');
+          assertFocus(options[0], 'up to UT');
+  navigateList('up');
+          assertFocus(options[2], 'loops up to TX');
+  navigateList('down');
+          assertFocus(options[0], 'loops down back to UT');
 });
 
 test('enter selects focused option', function() {
   setup(this);
-  open(this);
+  openWithDownArrow();
   options.eq(0).simulate('keydown', {keyCode: 13});
           assertSelected(lookupComponent('UT'));
           assertClosed();
@@ -73,7 +74,7 @@ test('enter selects focused option', function() {
 
 test('spacebar selects focused option', function() {
   setup(this);
-  open(this);
+  openWithDownArrow();
   options.eq(0).simulate('keydown', {keyCode: 32});
           assertSelected(lookupComponent('UT'));
           assertClosed();
@@ -81,7 +82,7 @@ test('spacebar selects focused option', function() {
 
 test('click selects option', function() {
   setup(this);
-  open(this);
+  openWithDownArrow();
   options.eq(1).simulate('click');
           assertSelected(lookupComponent('IL'));
           assertClosed();
@@ -89,8 +90,8 @@ test('click selects option', function() {
 
 test('typing in an open list returns focus to the input', function() {
   setup(this);
-  open(this);
-  autocomplete.$().simulate('keydown', {keyCode: 85});
+  openWithDownArrow();
+  autocomplete.simulate('keydown', {keyCode: 85});
           equal(input[0], document.activeElement);
 });
 
@@ -103,15 +104,18 @@ test('autocompletes text', function() {
 });
 
 test('does not autocomplete on backspace', function() {
-  ok(true, 'pending');
-  //setup(this);
-  //input[0].value = 'Uta';
-  //input.simulate('keyup', {keyCode: 8});
-          //equal(input[0].value, 'Uta');
-          //equal(window.getSelection().toString(), '');
+  setup(this);
+  input[0].value = 'Uta';
+  input.simulate('keyup', {keyCode: 65});
+          equal(input[0].value, 'Utah');
+          equal(window.getSelection().toString(), 'h', 'selects fragment');
+  input[0].value = 'Ut';
+  input.simulate('keydown', {keyCode: 8});
+  equal(input[0].value, 'Ut');
+  equal(window.getSelection().toString(), '');
 });
 
-test('selects on focusOut of valid autocomplete', function() {
+test('selects autocompleted option on focusOut', function() {
   setup(this);
   input[0].value = 'u';
   input.simulate('keyup', {keyCode: 85});
@@ -123,28 +127,71 @@ test('selects on focusOut of valid autocomplete', function() {
   });
 });
 
-//test('arrows navigate the list from current selection');
-//test('arrows navigate the list from last hover');
-//test('aria attributes');
+test('arrows navigate the list from current selection', function() {
+  setup(this);
+  selectOptionAtIndex(1);
+  openWithDownArrow();
+  assertFocus($('#IL')[0]);
+});
+
+test('arrows navigate the list from last hover', function() {
+  setup(this);
+  openWithDownArrow();
+  hoverOptionAtIndex(1);
+  navigateList('down');
+  assertFocus($('#TX')[0]);
+});
+
+test('aria attributes', function() {
+  setup(this);
+          equal(input.attr('role'), 'combobox', 'input role');
+          equal(input.attr('aria-autocomplete'), 'both', 'aria-autocomplete');
+          equal(input.attr('aria-owns'), list.attr('id'), 'aria-owns');
+          equal(list.attr('role'), 'listbox', 'list role');
+          equal(options.eq(0).attr('role'), 'option', 'option role');
+          equal(list.attr('aria-expanded'), 'false', 'aria-expanded');
+  selectOptionAtIndex(0);
+          equal(input.attr('aria-activedescendant'), options.eq(0).attr('id'), 'aria-activedescendant');
+  openWithDownArrow();
+          equal(list.attr('aria-expanded'), 'true', 'aria-expanded');
+});
 
 
+
+function navigateList(direction) {
+  var code = direction == 'up' ? 38 : /*down*/40;
+  $(document.activeElement).simulate('keydown', {keyCode: code});
+}
+
+function hoverOptionAtIndex(index) {
+  options.eq(index).simulate('mouseover');
+}
+
+function assertFocus(el, desc) {
+  equal(document.activeElement, el, desc);
+}
+
+function selectOptionAtIndex(index) {
+  openWithDownArrow();
+  options.eq(index).simulate('click');
+}
 
 function assertClosed() {
   ok(list.not(':visible'), 'list is not visible');
 }
 
 function assertSelected(option) {
-  equal(autocomplete.get('value'), option.get('value'), 'autocomplete value is set');
+  equal(component.get('value'), option.get('value'), 'autocomplete value is set');
   equal(input[0].value, option.get('label'), 'input value is option label');
 }
 
-function open() {
+function openWithDownArrow() {
   input[0].focus();
   input.simulate('keydown', {keyCode: 40});
 }
 
 function setup(test) {
-  autocomplete = test.subject({
+  component = test.subject({
     template: function() {/*
       {{#ic-autocomplete-option id="UT" value="UT" label="Utah"}}
         Utah
@@ -152,9 +199,13 @@ function setup(test) {
       {{#ic-autocomplete-option id="IL" value="IL" label="Illinois"}}
         Illinois
       {{/ic-autocomplete-option}}
+      {{#ic-autocomplete-option id="TX" value="TX" label="Texas"}}
+        Texas
+      {{/ic-autocomplete-option}}
     */}.compile()
   });
   var el = test.$();
+  autocomplete = el;
   input = el.find('.ic-autocomplete-input');
   list = el.find('ic-autocomplete-list');
   options = el.find('ic-autocomplete-option');

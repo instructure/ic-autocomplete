@@ -6,6 +6,7 @@ setResolver(Ember.DefaultResolver.extend({
     'component:ic-autocomplete-option': ic.autocomplete.AutocompleteOptionComponent,
     'component:ic-autocomplete-toggle': ic.autocomplete.AutocompleteToggleComponent,
     'component:ic-autocomplete-input': ic.autocomplete.AutocompleteInputComponent,
+    'component:ic-autocomplete-list': ic.autocomplete.AutocompleteListComponent,
     'template:components/ic-autocomplete': ic.autocomplete.autocompleteTemplate,
     'template:components/ic-autocomplete-css': ic.autocomplete.autocompleteCss
   },
