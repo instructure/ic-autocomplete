@@ -363,6 +363,8 @@ exports["default"] = Ember.Component.extend({
 
   inputValue: '',
 
+  autocomplete: true,
+
   /**
    * Two-way bound property representing the current value.
    *
@@ -549,7 +551,9 @@ exports["default"] = Ember.Component.extend({
         this.selectOption(option, {focus: false});
       }
     }
-
+    if (this.get('isOpen') && this.get('inputValue')) {
+      this.autocompleteText();
+    }
   },
 
   /**
@@ -663,6 +667,9 @@ exports["default"] = Ember.Component.extend({
     if (input === '') {
       return;
     }
+    if (label.toLowerCase().indexOf(input.toLowerCase()) == -1) {
+      return;
+    }
     var fragment = label.substring(input.length);
     // since we are setting the input's value, we don't want the observers
     // doing their thing
@@ -704,7 +711,9 @@ exports["default"] = Ember.Component.extend({
     }
     this.sendAction('on-input', this, this.get('inputValue'));
     // TODO: later because ???
-    Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
+    if (this.get('autocomplete')) {
+      Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
+    }
   }.observes('inputValue'),
 
   /**

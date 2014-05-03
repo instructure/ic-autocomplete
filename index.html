@@ -7,8 +7,10 @@ ic-autocomplete { width: 200px; }
 ic-autocomplete-list {
   max-height: 200px;
 }
-#flickr {
+#movies {
   width: 500px;
+}
+#movies ic-autocomplete-list {
   max-height: 500px;
 }
 </style>
@@ -45,15 +47,17 @@ ic-autocomplete-list {
   {{/ic-autocomplete}}
 
   {{#ic-autocomplete
-    id="flickr"
+    id="movies"
     value=state1
-    on-input="setFlickrSearch"
-    placeholder="Pick an image from flickr"
+    on-input="setMovieSearch"
+    placeholder="Search for a movie"
   }}
-    {{#each flickrPhotos}}
-      {{#ic-autocomplete-option label=title value=link}}
-        <img {{bind-attr src="media.m"}}>
+    {{#each movies}}
+      {{#ic-autocomplete-option label=title value=id}}
+        <img {{bind-attr src="image"}}>
       {{/ic-autocomplete-option}}
+    {{else}}
+      <p>Loading...</p>
     {{/each}}
   {{/ic-autocomplete}}
 
@@ -108,9 +112,9 @@ ic-autocomplete-list {
         this.set('filteredImages', findStates());
       },
 
-      setFlickrSearch: debounce(function(term) {
-        this.set('flickrSearch', term);
-      })
+      setMovieSearch: throttle(function(autocomplete, term) {
+        this.set('movieSearch', term);
+      }, 500)
     },
 
     filter: function(term) {
@@ -122,17 +126,21 @@ ic-autocomplete-list {
       });
     },
 
-    flickrPhotos: function() {
-      var photos = [];
-      var url = 'http://www.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
-      $.getJSON(url, {
-        tags: this.get('flickrSearch'),
-        format: 'json'
-      }).then(function(data) {
-        photos.addObjects(data.items);
+    movies: function() {
+      if (!this.get('movieSearch')) {
+        return;
+      }
+      if (this.inflight) {
+        this.inflight.abort();
+      }
+      var movies = [];
+      var url = 'http://movies-api.elasticbeanstalk.com/items/movies?q=';
+      this.inflight = $.getJSON(url + this.get('movieSearch'), function(data) {
+        movies.addObjects(data);
+        this.inflight = null;
       });
-      return photos;
-    }.property('flickrSearch')
+      return movies;
+    }.property('movieSearch')
 
   });
 
@@ -146,14 +154,6 @@ ic-autocomplete-list {
       return "http://www.50states.com/maps/"+path+".gif";
     }.property('name')
   });
-
-  function debounce(fn, timeout) {
-    var timer;
-    return function() {
-      clearTimeout(timer);
-      timer = setTimeout(fn.bind(this), timeout || 500);
-    }
-  }
 
   function findStates() {
     return [
@@ -209,4 +209,33 @@ ic-autocomplete-list {
       { id: "WY", name: "Wyoming"}
     ];
   }
+
+  function throttle(fn, delay){
+    var context, timeout, result, args,
+      cur, diff, prev = 0;
+    function delayed(){
+      prev = Date.now();
+      timeout = null;
+      result = fn.apply(context, args);
+    }
+    function throttled(){
+      context = this;
+      args = arguments;
+      cur = Date.now();
+      diff = delay - (cur - prev);
+      if (diff <= 0) {
+        clearTimeout(timeout);
+        prev = cur;
+        result = fn.apply(context, args);
+      } else if (! timeout) {
+        timeout = setTimeout(delayed, diff);
+      }
+      return result;
+    }
+    throttled.cancel = function(){
+      clearTimeout(timeout);
+    };
+    return throttled;
+  }
+
 </script>
