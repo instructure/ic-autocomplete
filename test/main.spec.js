@@ -176,6 +176,12 @@ test('aria attributes', function() {
           equal(list.attr('aria-expanded'), 'true', 'aria-expanded');
 });
 
+test('responds to value being set', function() {
+  setup(this);
+  component.set('value', 'IL');
+          assertSelected(lookupComponent('IL'));
+});
+
 
 function assertSelection(expected, desc) {
   equal(window.getSelection().toString(), expected, desc);
