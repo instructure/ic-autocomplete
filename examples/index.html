@@ -1,24 +1,31 @@
-<!doctype html public "display of affection">
+<!doctype html public "goods">
 <meta charset="utf-8">
 <title>ic-autocomplete demo</title>
 <link rel="stylesheet" href="http://instructure.github.io/ic-ember/shared/styles.css">
 <style>
 ic-autocomplete { width: 200px; }
+ic-autocomplete-list {
+  max-height: 200px;
+}
+#movies {
+  width: 500px;
+}
+#movies ic-autocomplete-list {
+  max-height: 500px;
+}
 </style>
-<script type="text/x-handlebars">
-<div class="padbox">
-  <p>
-    State 1: {{state1}}<br>
-    State 2: {{state2}}
-  </p>
 
-  <pre>{{filteredStates.length}}</pre>
+<script type="text/x-handlebars">
+  <p>
+    Selected State 1 ID: {{state1}}<br>
+    Selected State 2 ID: {{state2}}
+  </p>
 
   {{#ic-autocomplete
     value=state1
     on-input="filterStates"
-    on-select="selectState"
-    placeholder="Pick a state"
+    on-select="resetStates"
+    placeholder="Enter or pick a state"
   }}
     {{#each filteredStates}}
       {{#ic-autocomplete-option value=id label=name}}{{name}}{{/ic-autocomplete-option}}
@@ -27,32 +34,33 @@ ic-autocomplete { width: 200px; }
     {{/each}}
   {{/ic-autocomplete}}
 
-  <br>
-
   {{#ic-autocomplete
-    value=state2
-    on-input="filterImages"
-    placeholder="Pick a state"
+    id="movies"
+    value=state1
+    on-input="setMovieSearch"
+    placeholder="Search for a movie"
   }}
-    {{#each filteredImages}}
-      {{#ic-autocomplete-option value=id label=name}}
-        {{name}}
-        {{! x-state name=name}}
+    {{#each movies}}
+      {{#ic-autocomplete-option label=title value=id}}
+        <img {{bind-attr src="image"}}>
       {{/ic-autocomplete-option}}
     {{else}}
-      <div style="padding: 2px 16px;">No results</div>
+      <p>Loading...</p>
     {{/each}}
   {{/ic-autocomplete}}
 
-
-
-  <select>
-    {{#each states}}
-      <option>{{name}}</option>
-    {{/each}}
-  </select>
-
-</div>
+  <ul>
+    <li>start typing to open the list</li>
+    <li>or click the drop-down arrow</li>
+    <li>up/down navigates the list</li>
+    <li>esc closes the list</li>
+    <li>enter + space selects focused items</li>
+    <li>autocomplete text doesn’t get in the way</li>
+    <li>template is yielded, so you can put whatever you want in there</li>
+    <li>you control the filtering so you can do xhr and even filter on
+    multiple properties of your data (in this case, you can type the
+    state abbreviation like "AZ"</li>
+  </ul>
 </script>
 
 <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -67,6 +75,14 @@ ic-autocomplete { width: 200px; }
 
   App.ApplicationController = Ember.Controller.extend({
 
+    state1: '',
+
+    state2: 'UT',
+
+    filteredStates: findStates(),
+
+    filteredImages: findStates(),
+
     actions: {
       filterStates: function(autocomplete, term) {
         this.set('filteredStates', this.filter(term));
@@ -76,20 +92,18 @@ ic-autocomplete { width: 200px; }
         this.set('filteredImages', this.filter(term));
       },
 
-      selectState: function(autocomplete, state) {
+      resetStates: function() {
         this.set('filteredStates', findStates());
-      }
+      },
+
+      resetImages: function() {
+        this.set('filteredImages', findStates());
+      },
+
+      setMovieSearch: throttle(function(autocomplete, term) {
+        this.set('movieSearch', term);
+      }, 500)
     },
-
-    state1: '',
-
-    state2: 'UT',
-
-    filteredStates: findStates(),
-
-    filteredImages: findStates(),
-
-    states: findStates(),
 
     filter: function(term) {
       var states = findStates();
@@ -98,14 +112,31 @@ ic-autocomplete { width: 200px; }
       return states.filter(function(state) {
         return filter.test(state.name) || filter.test(state.id);
       });
-    }
+    },
+
+    movies: function() {
+      if (!this.get('movieSearch')) {
+        return;
+      }
+      if (this.inflight) {
+        this.inflight.abort();
+      }
+      var movies = [];
+      var url = 'http://movies-api.elasticbeanstalk.com/items/movies?q=';
+      this.inflight = $.getJSON(url + this.get('movieSearch'), function(data) {
+        movies.addObjects(data);
+        this.inflight = null;
+      });
+      return movies;
+    }.property('movieSearch')
 
   });
 
   App.XStateComponent = Ember.Component.extend({
     tagName: 'img',
-    attributeBindings: ['src', 'height'],
-    height: 200,
+    attributeBindings: ['src', 'height', 'alt'],
+    height: 100,
+    alt: Ember.computed.alias('name'),
     src: function() {
       var path = Ember.String.underscore(this.get('name'));
       return "http://www.50states.com/maps/"+path+".gif";
@@ -166,4 +197,34 @@ ic-autocomplete { width: 200px; }
       { id: "WY", name: "Wyoming"}
     ];
   }
+
+  function throttle(fn, delay){
+    var context, timeout, result, args,
+      cur, diff, prev = 0;
+    function delayed(){
+      prev = Date.now();
+      timeout = null;
+      result = fn.apply(context, args);
+    }
+    function throttled(){
+      context = this;
+      args = arguments;
+      cur = Date.now();
+      diff = delay - (cur - prev);
+      if (diff <= 0) {
+        clearTimeout(timeout);
+        prev = cur;
+        result = fn.apply(context, args);
+      } else if (! timeout) {
+        timeout = setTimeout(delayed, diff);
+      }
+      return result;
+    }
+    throttled.cancel = function(){
+      clearTimeout(timeout);
+    };
+    return throttled;
+  }
+
 </script>
+
