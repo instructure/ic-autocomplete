@@ -32,6 +32,7 @@ test('opening on down arrow', function() {
 
 test('opens on input', function() {
   setup(this);
+  input.val('u');
   input.simulate('keyup', {keyCode: 85});
           ok(list.is(':visible'), 'list is visible');
 });
