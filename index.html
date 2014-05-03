@@ -149,20 +149,17 @@ ic-autocomplete-list {
     },
 
     movies: function() {
-      if (!this.get('movieSearch')) {
-        return;
-      }
-      this.set('isLoading', true);
-      if (this.inflight) {
-        console.log('aborting');
-        this.inflight.abort();
-      }
       var movies = [];
+      if (!this.get('movieSearch')) return movies;
+      if (this.inflight) this.inflight.abort();
+      this.set('isLoading', true);
       var url = 'http://movies-api.elasticbeanstalk.com/items/movies?q=';
-      this.inflight = $.getJSON(url + this.get('movieSearch'), function(data) {
+      var req = this.inflight = $.getJSON(url + this.get('movieSearch'));
+      req.done(function(data) {
         movies.addObjects(data);
-        this.inflight = null;
+      }).always(function() {
         this.set('isLoading', false);
+        this.inflight = null;
       }.bind(this));
       return movies;
     }.property('movieSearch')
