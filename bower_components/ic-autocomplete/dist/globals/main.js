@@ -668,7 +668,7 @@ exports["default"] = Ember.Component.extend({
       return;
     }
     if (label.toLowerCase().indexOf(input.toLowerCase()) == -1) {
-      return;
+      return
     }
     var fragment = label.substring(input.length);
     // since we are setting the input's value, we don't want the observers
@@ -802,7 +802,11 @@ exports["default"] = Ember.Component.extend({
 
   maybeSelectFocusedOption: function() {
     var focused = this.get('focusedOption');
-    if (focused) this.selectOption(focused);
+    if (focused) {
+      this.selectOption(focused);
+      return true;
+    }
+    return false;
   },
 
   /**
@@ -831,8 +835,14 @@ exports["default"] = Ember.Component.extend({
 
   maybeSelectOnEnter: function(event) {
     event.preventDefault();
-    this.maybeSelectFocusedOption();
-    this.maybeSelectAutocompletedOption();
+    var selectedFocused = this.maybeSelectFocusedOption();
+    // TODO: fix this, its smelly. autocompleteText clears out autocompleted
+    // option, but if a new option shows up and gets autocompleted, nothing
+    // clears out autocompletedOption, so we only want to select it if we
+    // didn't select a focused option.
+    if (!selectedFocused) {
+      this.maybeSelectAutocompletedOption();
+    }
     this.get('input').select();
   },
 

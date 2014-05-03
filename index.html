@@ -7,11 +7,38 @@ ic-autocomplete { width: 200px; }
 ic-autocomplete-list {
   max-height: 200px;
 }
-#movies {
-  width: 500px;
+
+.image-block {
+  overflow: hidden;
 }
+
+.image-block-image {
+  float: left;
+  margin-right: 6px;
+}
+
+.image-block-content {
+  display: table-cell;
+  vertical-align: top;
+  width: 10000px;
+}
+
+#movies {
+  width: 300px;
+}
+
+#movies ic-autocomplete-option {
+  font-size: 14px;
+}
+
 #movies ic-autocomplete-list {
   max-height: 500px;
+}
+
+#movies img {
+  display: inline-block;
+  padding-right: 10px;
+  vertical-align: middle;
 }
 </style>
 
@@ -29,12 +56,12 @@ ic-autocomplete-list {
 
 <script type="text/x-handlebars">
   <p>
-    Selected State 1 ID: {{state1}}<br>
-    Selected State 2 ID: {{state2}}
+    Selected State ID: {{state}}<br>
+    Selected Movie ID: {{movieId}}
   </p>
 
   {{#ic-autocomplete
-    value=state1
+    value=state
     on-input="filterStates"
     on-select="resetStates"
     placeholder="Enter or pick a state"
@@ -48,16 +75,19 @@ ic-autocomplete-list {
 
   {{#ic-autocomplete
     id="movies"
-    value=state1
+    value=movieId
     on-input="setMovieSearch"
     placeholder="Search for a movie"
   }}
     {{#each movies}}
-      {{#ic-autocomplete-option label=title value=id}}
-        <img {{bind-attr src="image"}}>
+      {{#ic-autocomplete-option label=title value=id class="image-block"}}
+        <img {{bind-attr src="image"}} height=50 class="image-block-image">
+        <div class="image-block-content">
+          {{title}}
+        </div>
       {{/ic-autocomplete-option}}
     {{else}}
-      <p>Loading...</p>
+      <div style="padding: 2px 16px;">Searching IMDB...</div>
     {{/each}}
   {{/ic-autocomplete}}
 
@@ -87,9 +117,9 @@ ic-autocomplete-list {
 
   App.ApplicationController = Ember.Controller.extend({
 
-    state1: '',
+    state: '',
 
-    state2: 'UT',
+    movieId: '',
 
     filteredStates: findStates(),
 
