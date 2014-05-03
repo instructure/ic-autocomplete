@@ -1,3 +1,12 @@
+v0.0.6
+Sat, 03 May 2014 03:44:54 GMT
+
+78284e9 [fixed] closing on focusOut with non-matching text
+4744ba0 [fixed] opening list w/o selection
+344c40f [fixed] aria-attributes
+3a2bfac [added] a pretty decent test suite
+
+
 v0.0.5
 Thu, 01 May 2014 19:02:41 GMT
 

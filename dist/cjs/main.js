@@ -6,6 +6,7 @@ var AutocompleteComponent = require("./autocomplete")["default"] || require("./a
 var AutocompleteOptionComponent = require("./autocomplete-option")["default"] || require("./autocomplete-option");
 var AutocompleteToggleComponent = require("./autocomplete-toggle")["default"] || require("./autocomplete-toggle");
 var AutocompleteInputComponent = require("./autocomplete-input")["default"] || require("./autocomplete-input");
+var AutocompleteListComponent = require("./autocomplete-list")["default"] || require("./autocomplete-list");
 
 Application.initializer({
   name: 'ic-modal',
@@ -16,6 +17,7 @@ Application.initializer({
     container.register('component:ic-autocomplete-option', AutocompleteOptionComponent);
     container.register('component:ic-autocomplete-toggle', AutocompleteToggleComponent);
     container.register('component:ic-autocomplete-input', AutocompleteInputComponent);
+    container.register('component:ic-autocomplete-list', AutocompleteListComponent);
   }
 });
 
@@ -25,3 +27,4 @@ exports.AutocompleteComponent = AutocompleteComponent;
 exports.AutocompleteOptionComponent = AutocompleteOptionComponent;
 exports.AutocompleteToggleComponent = AutocompleteToggleComponent;
 exports.AutocompleteInputComponent = AutocompleteInputComponent;
+exports.AutocompleteListComponent = AutocompleteListComponent;
