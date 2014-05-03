@@ -2,5 +2,7 @@
 echo "# running script/test"
 script/build
 node_modules/.bin/bower install
-node_modules/.bin/testem ci
+# only chrome until we can figure out how to get firefox to work when the
+# window isn't in the front
+node_modules/.bin/testem ci -l chrome
 
