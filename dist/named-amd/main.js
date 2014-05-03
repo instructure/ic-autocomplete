@@ -213,7 +213,7 @@ define("ic-autocomplete/autocomplete-input",
 
       registerWithAutocomplete: function() {
         this.get('autocomplete').registerOption(this);
-      }.on('didInsertElement'),
+      }.on('willInsertElement'),
 
       /**
        * Unregisters itself with the suggest component.
@@ -372,6 +372,8 @@ define("ic-autocomplete/autocomplete-input",
       ],
 
       inputValue: '',
+
+      autocomplete: true,
 
       /**
        * Two-way bound property representing the current value.
@@ -559,7 +561,9 @@ define("ic-autocomplete/autocomplete-input",
             this.selectOption(option, {focus: false});
           }
         }
-
+        if (this.get('isOpen') && this.get('inputValue')) {
+          Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
+        }
       },
 
       /**
@@ -673,6 +677,9 @@ define("ic-autocomplete/autocomplete-input",
         if (input === '') {
           return;
         }
+        if (label.toLowerCase().indexOf(input.toLowerCase()) == -1) {
+          return
+        }
         var fragment = label.substring(input.length);
         // since we are setting the input's value, we don't want the observers
         // doing their thing
@@ -714,7 +721,9 @@ define("ic-autocomplete/autocomplete-input",
         }
         this.sendAction('on-input', this, this.get('inputValue'));
         // TODO: later because ???
-        Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
+        if (this.get('autocomplete')) {
+          Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
+        }
       }.observes('inputValue'),
 
       /**
@@ -803,7 +812,11 @@ define("ic-autocomplete/autocomplete-input",
 
       maybeSelectFocusedOption: function() {
         var focused = this.get('focusedOption');
-        if (focused) this.selectOption(focused);
+        if (focused) {
+          this.selectOption(focused);
+          return true;
+        }
+        return false;
       },
 
       /**
@@ -832,8 +845,14 @@ define("ic-autocomplete/autocomplete-input",
 
       maybeSelectOnEnter: function(event) {
         event.preventDefault();
-        this.maybeSelectFocusedOption();
-        this.maybeSelectAutocompletedOption();
+        var selectedFocused = this.maybeSelectFocusedOption();
+        // TODO: fix this, its smelly. autocompleteText clears out autocompleted
+        // option, but if a new option shows up and gets autocompleted, nothing
+        // clears out autocompletedOption, so we only want to select it if we
+        // didn't select a focused option.
+        if (!selectedFocused) {
+          this.maybeSelectAutocompletedOption();
+        }
         this.get('input').select();
       },
 
