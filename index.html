@@ -79,16 +79,20 @@ ic-autocomplete-list {
     on-input="setMovieSearch"
     placeholder="Search for a movie"
   }}
-    {{#each movies}}
-      {{#ic-autocomplete-option label=title value=id class="image-block"}}
-        <img {{bind-attr src="image"}} height=50 class="image-block-image">
-        <div class="image-block-content">
-          {{title}}
-        </div>
-      {{/ic-autocomplete-option}}
-    {{else}}
+    {{#if isLoading}}
       <div style="padding: 2px 16px;">Searching IMDB...</div>
-    {{/each}}
+    {{else}}
+      {{#each movies}}
+        {{#ic-autocomplete-option label=title value=id class="image-block"}}
+          <img {{bind-attr src="image"}} height=50 class="image-block-image">
+          <div class="image-block-content">
+            {{title}}
+          </div>
+        {{/ic-autocomplete-option}}
+      {{else}}
+        <div style="padding: 2px 16px;">No results found</div>
+      {{/each}}
+    {{/if}}
   {{/ic-autocomplete}}
 
   <ul>
@@ -148,7 +152,9 @@ ic-autocomplete-list {
       if (!this.get('movieSearch')) {
         return;
       }
+      this.set('isLoading', true);
       if (this.inflight) {
+        console.log('aborting');
         this.inflight.abort();
       }
       var movies = [];
@@ -156,7 +162,8 @@ ic-autocomplete-list {
       this.inflight = $.getJSON(url + this.get('movieSearch'), function(data) {
         movies.addObjects(data);
         this.inflight = null;
-      });
+        this.set('isLoading', false);
+      }.bind(this));
       return movies;
     }.property('movieSearch')
 
