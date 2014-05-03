@@ -200,7 +200,7 @@ exports["default"] = Ember.Component.extend({
       }
     }
     if (this.get('isOpen') && this.get('inputValue')) {
-      this.autocompleteText();
+      Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
     }
   },
 

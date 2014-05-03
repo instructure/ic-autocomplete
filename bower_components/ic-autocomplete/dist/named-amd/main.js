@@ -213,7 +213,7 @@ define("ic-autocomplete/autocomplete-input",
 
       registerWithAutocomplete: function() {
         this.get('autocomplete').registerOption(this);
-      }.on('didInsertElement'),
+      }.on('willInsertElement'),
 
       /**
        * Unregisters itself with the suggest component.
@@ -562,7 +562,7 @@ define("ic-autocomplete/autocomplete-input",
           }
         }
         if (this.get('isOpen') && this.get('inputValue')) {
-          this.autocompleteText();
+          Ember.run.scheduleOnce('afterRender', this, 'autocompleteText');
         }
       },
 

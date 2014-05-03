@@ -14,9 +14,9 @@
     "tests"
   ],
   "dependencies": {
-    "ic-autocomplete": "0.0.9"
+    "ic-autocomplete": "0.0.10"
   },
   "resolutions": {
-    "ic-autocomplete": "0.0.9"
+    "ic-autocomplete": "0.0.10"
   }
 }

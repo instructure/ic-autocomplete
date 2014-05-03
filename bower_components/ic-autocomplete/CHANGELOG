@@ -1,6 +1,7 @@
-v0.0.9
-Sat, 03 May 2014 17:59:49 GMT
+v0.0.10
+Sat, 03 May 2014 19:51:38 GMT
 
+11e424b [fixed] backspace issue with new async support
 25a960e [added] support for asynchronous lists
 
 
