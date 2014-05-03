@@ -7,6 +7,10 @@ ic-autocomplete { width: 200px; }
 ic-autocomplete-list {
   max-height: 200px;
 }
+#flickr {
+  width: 500px;
+  max-height: 500px;
+}
 </style>
 
 <header class="branding padbox">
@@ -41,17 +45,15 @@ ic-autocomplete-list {
   {{/ic-autocomplete}}
 
   {{#ic-autocomplete
-    value=state2
-    on-input="filterImages"
-    on-select="resetImages"
-    placeholder="Enter or pick a state"
+    id="flickr"
+    value=state1
+    on-input="setFlickrSearch"
+    placeholder="Pick an image from flickr"
   }}
-    {{#each filteredImages}}
-      {{#ic-autocomplete-option value=id label=name}}
-        {{x-state name=name}}
+    {{#each flickrPhotos}}
+      {{#ic-autocomplete-option label=title value=link}}
+        <img {{bind-attr src="media.m"}}>
       {{/ic-autocomplete-option}}
-    {{else}}
-      <div style="padding: 2px 16px;">No results</div>
     {{/each}}
   {{/ic-autocomplete}}
 
@@ -104,7 +106,11 @@ ic-autocomplete-list {
 
       resetImages: function() {
         this.set('filteredImages', findStates());
-      }
+      },
+
+      setFlickrSearch: debounce(function(term) {
+        this.set('flickrSearch', term);
+      })
     },
 
     filter: function(term) {
@@ -114,7 +120,19 @@ ic-autocomplete-list {
       return states.filter(function(state) {
         return filter.test(state.name) || filter.test(state.id);
       });
-    }
+    },
+
+    flickrPhotos: function() {
+      var photos = [];
+      var url = 'http://www.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
+      $.getJSON(url, {
+        tags: this.get('flickrSearch'),
+        format: 'json'
+      }).then(function(data) {
+        photos.addObjects(data.items);
+      });
+      return photos;
+    }.property('flickrSearch')
 
   });
 
@@ -128,6 +146,14 @@ ic-autocomplete-list {
       return "http://www.50states.com/maps/"+path+".gif";
     }.property('name')
   });
+
+  function debounce(fn, timeout) {
+    var timer;
+    return function() {
+      clearTimeout(timer);
+      timer = setTimeout(fn.bind(this), timeout || 500);
+    }
+  }
 
   function findStates() {
     return [
