@@ -1,6 +1,6 @@
 {
   "name": "ic-autocomplete",
-  "version": "0.0.4",
+  "version": "0.0.8",
   "authors": [
     "Ryan Florence <rpflorence@gmail.com>"
   ],
@@ -28,14 +28,14 @@
     "ember-canary": "http://builds.emberjs.com/canary/ember.js"
   },
   "homepage": "https://github.com/instructure/ic-autocomplete",
-  "_release": "0.0.4",
+  "_release": "0.0.8",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.4",
-    "commit": "9131b9ed154211816e7873a65211c3b386409a90"
+    "tag": "v0.0.8",
+    "commit": "903bca893eb1634232d269e275a5184cbeb2eeab"
   },
   "_source": "git://github.com/instructure/ic-autocomplete.git",
-  "_target": "0.0.4",
+  "_target": "0.0.8",
   "_originalSource": "ic-autocomplete",
   "_direct": true
 }

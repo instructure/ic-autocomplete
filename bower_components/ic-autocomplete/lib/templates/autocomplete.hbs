@@ -1,12 +1,12 @@
 {{ic-autocomplete-input
-  value=inputValueBuffer
+  value=inputValue
   aria-label=placeholder
   placeholder=placeholder
 }}
 
 {{#ic-autocomplete-toggle}}▾{{/ic-autocomplete-toggle}}
 
-<ic-autocomplete-list role="listbox">
+{{#ic-autocomplete-list}}
   {{yield}}
-</ic-autocomplete-list>
+{{/ic-autocomplete-list}}
 

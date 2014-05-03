@@ -5,6 +5,7 @@ import AutocompleteComponent from './autocomplete';
 import AutocompleteOptionComponent from './autocomplete-option';
 import AutocompleteToggleComponent from './autocomplete-toggle';
 import AutocompleteInputComponent from './autocomplete-input';
+import AutocompleteListComponent from './autocomplete-list';
 
 Application.initializer({
   name: 'ic-modal',
@@ -15,6 +16,7 @@ Application.initializer({
     container.register('component:ic-autocomplete-option', AutocompleteOptionComponent);
     container.register('component:ic-autocomplete-toggle', AutocompleteToggleComponent);
     container.register('component:ic-autocomplete-input', AutocompleteInputComponent);
+    container.register('component:ic-autocomplete-list', AutocompleteListComponent);
   }
 });
 
@@ -24,6 +26,7 @@ export {
   AutocompleteComponent,
   AutocompleteOptionComponent,
   AutocompleteToggleComponent,
-  AutocompleteInputComponent
+  AutocompleteInputComponent,
+  AutocompleteListComponent
 };
 

@@ -15,5 +15,8 @@
   ],
   "dependencies": {
     "ic-autocomplete": "0.0.4"
+  },
+  "resolutions": {
+    "ic-autocomplete": "0.0.8"
   }
 }

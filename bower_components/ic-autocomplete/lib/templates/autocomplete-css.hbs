@@ -6,7 +6,7 @@ ic-autocomplete {
 ic-autocomplete-list {
   display: none;
   position: absolute;
-  z-index: 0;
+  z-index: 1;
   border: 1px solid #aaa;
   background: #fff;
   top: 100%;
@@ -15,6 +15,8 @@ ic-autocomplete-list {
   overflow: auto;
   font-size: 12px;
   width: 100%;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -48,14 +50,14 @@ ic-autocomplete-toggle {
   right: 6px;
   font-size: 14px;
   cursor: default;
-  z-index: 1;
 }
 
 .ic-autocomplete-input {
   position: relative;
-  z-index: 1;
   padding-right: 20px;
   width: 100%;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
 }
 
