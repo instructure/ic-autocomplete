@@ -31,7 +31,7 @@ ic-autocomplete-list {
     value=state1
     on-input="filterStates"
     on-select="resetStates"
-    placeholder="Pick a state"
+    placeholder="Enter or pick a state"
   }}
     {{#each filteredStates}}
       {{#ic-autocomplete-option value=id label=name}}{{name}}{{/ic-autocomplete-option}}
@@ -44,7 +44,7 @@ ic-autocomplete-list {
     value=state2
     on-input="filterImages"
     on-select="resetImages"
-    placeholder="Pick a state"
+    placeholder="Enter or pick a state"
   }}
     {{#each filteredImages}}
       {{#ic-autocomplete-option value=id label=name}}
@@ -81,7 +81,7 @@ ic-autocomplete-list {
 
   App.ApplicationController = Ember.Controller.extend({
 
-    state1: 'IL',
+    state1: '',
 
     state2: 'UT',
 
