@@ -1,3 +1,11 @@
+v0.0.11
+Mon, 02 Jun 2014 21:02:07 GMT
+
+94c5ccf [fixed] trying to select a destroyed option
+11e424b [fixed] backspace issue with new async support
+25a960e [added] support for asynchronous lists
+
+
 v0.0.10
 Sat, 03 May 2014 19:51:38 GMT
 

@@ -829,6 +829,9 @@ define("ic-autocomplete/autocomplete-input",
       maybeSelectAutocompletedOption: function() {
         var option = this.get('autocompletedOption');
         if (option) {
+          if (option.get('isDestroyed')) {
+            return console.warn('autocomplete option was destroyed but was supposed to get selected');
+          }
           this.selectOption(option, {focus: false, focusOption: false});
           this.set('autocompletedOption', null);
         }
@@ -903,8 +906,10 @@ define("ic-autocomplete/autocomplete-input",
       closeOnFocusOut: function() {
         // later for document.activeElement to be correct
         Ember.run.later(this, function() {
-          // TODO: maybe handle focusOut of the elements we know about instead of an
-          // overarching check here?
+          // TODO: maybe handle focusOut of the elements we know about instead of
+          // an overarching check here? I'm sure there are bugs and edge cases I
+          // can't think about here by waiting before doing these checks (destroyed
+          // elements, etc.)
           if (!this.get('element').contains(document.activeElement)) {
             this.maybeSelectAutocompletedOption();
             this.close();
