@@ -12,7 +12,7 @@ define(
     var AutocompleteListComponent = __dependency8__["default"] || __dependency8__;
 
     Application.initializer({
-      name: 'ic-modal',
+      name: 'ic-autocomplete',
       initialize: function(container) {
         container.register('template:components/ic-autocomplete', autocompleteTemplate);
         container.register('template:components/ic-autocomplete-css', autocompleteCss);

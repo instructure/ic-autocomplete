@@ -9,7 +9,7 @@ var AutocompleteInputComponent = require("./autocomplete-input")["default"] || r
 var AutocompleteListComponent = require("./autocomplete-list")["default"] || require("./autocomplete-list");
 
 Application.initializer({
-  name: 'ic-modal',
+  name: 'ic-autocomplete',
   initialize: function(container) {
     container.register('template:components/ic-autocomplete', autocompleteTemplate);
     container.register('template:components/ic-autocomplete-css', autocompleteCss);

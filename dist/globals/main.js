@@ -946,7 +946,7 @@ var AutocompleteInputComponent = _dereq_("./autocomplete-input")["default"] || _
 var AutocompleteListComponent = _dereq_("./autocomplete-list")["default"] || _dereq_("./autocomplete-list");
 
 Application.initializer({
-  name: 'ic-modal',
+  name: 'ic-autocomplete',
   initialize: function(container) {
     container.register('template:components/ic-autocomplete', autocompleteTemplate);
     container.register('template:components/ic-autocomplete-css', autocompleteCss);
