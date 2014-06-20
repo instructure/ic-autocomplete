@@ -147,6 +147,24 @@ test('selects autocompleted option on focusOut', function() {
   });
 });
 
+test('does not select autocompleted option on focusOut when a different option is selected', function() {
+  setup(this);
+
+  input.val('a');
+  input.simulate('keyup', {keyCode: 65});
+          equal(input[0].value, 'Utah');
+
+  selectOptionAtIndex(1);
+          assertSelected(lookupComponent('IL'));
+          assertClosed();
+
+  input.blur();
+
+  Ember.run.next(function() {
+    assertSelected(lookupComponent('IL'));
+  });
+});
+
 test('arrows navigate the list from current selection', function() {
   setup(this);
   selectOptionAtIndex(1);

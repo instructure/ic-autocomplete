@@ -133,6 +133,8 @@ define(
        */
 
       selectOption: function(option, options) {
+        this.set('autocompletedOption', null);
+
         options = options || {};
         var selected = this.get('selected');
         if (selected) selected.deselect();
@@ -551,7 +553,8 @@ define(
           // an overarching check here? I'm sure there are bugs and edge cases I
           // can't think about here by waiting before doing these checks (destroyed
           // elements, etc.)
-          if (!this.get('element').contains(document.activeElement)) {
+          var element = this.get('element');
+          if (element && !element.contains(document.activeElement)) {
             this.maybeSelectAutocompletedOption();
             this.close();
           }
