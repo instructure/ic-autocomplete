@@ -86,7 +86,8 @@ define("ic-autocomplete/autocomplete-input",
       }.on('focusIn')
 
     });
-  });define("ic-autocomplete/autocomplete-list",
+  });
+define("ic-autocomplete/autocomplete-list",
   ["ember","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
@@ -134,7 +135,8 @@ define("ic-autocomplete/autocomplete-input",
       }.on('didInsertElement')
 
     });
-  });define("ic-autocomplete/autocomplete-option",
+  });
+define("ic-autocomplete/autocomplete-option",
   ["ember","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
@@ -311,7 +313,8 @@ define("ic-autocomplete/autocomplete-input",
       }
 
     });
-  });define("ic-autocomplete/autocomplete-toggle",
+  });
+define("ic-autocomplete/autocomplete-toggle",
   ["ember","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
@@ -357,7 +360,8 @@ define("ic-autocomplete/autocomplete-input",
       }.on('click')
 
     });
-  });define("ic-autocomplete/autocomplete",
+  });
+define("ic-autocomplete/autocomplete",
   ["ember","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
@@ -492,6 +496,8 @@ define("ic-autocomplete/autocomplete-input",
        */
 
       selectOption: function(option, options) {
+        this.set('autocompletedOption', null);
+
         options = options || {};
         var selected = this.get('selected');
         if (selected) selected.deselect();
@@ -910,7 +916,8 @@ define("ic-autocomplete/autocomplete-input",
           // an overarching check here? I'm sure there are bugs and edge cases I
           // can't think about here by waiting before doing these checks (destroyed
           // elements, etc.)
-          if (!this.get('element').contains(document.activeElement)) {
+          var element = this.get('element');
+          if (element && !element.contains(document.activeElement)) {
             this.maybeSelectAutocompletedOption();
             this.close();
           }
@@ -944,7 +951,8 @@ define("ic-autocomplete/autocomplete-input",
       }.observes('value')
 
     });
-  });define("ic-autocomplete",
+  });
+define("ic-autocomplete",
   ["ember","./templates/autocomplete-css","./templates/autocomplete","./autocomplete","./autocomplete-option","./autocomplete-toggle","./autocomplete-input","./autocomplete-list","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __dependency8__, __exports__) {
     "use strict";
@@ -977,7 +985,8 @@ define("ic-autocomplete/autocomplete-input",
     __exports__.AutocompleteToggleComponent = AutocompleteToggleComponent;
     __exports__.AutocompleteInputComponent = AutocompleteInputComponent;
     __exports__.AutocompleteListComponent = AutocompleteListComponent;
-  });define("ic-autocomplete/templates/autocomplete-css",
+  });
+define("ic-autocomplete/templates/autocomplete-css",
   ["ember","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
@@ -991,7 +1000,8 @@ define("ic-autocomplete/autocomplete-input",
       data.buffer.push("ic-autocomplete {\n  display: inline-block;\n  position: relative;\n}\n\nic-autocomplete-list {\n  display: none;\n  position: absolute;\n  z-index: 1;\n  border: 1px solid #aaa;\n  background: #fff;\n  top: 100%;\n  padding: 5px 0px;\n  max-height: 400px;\n  overflow: auto;\n  font-size: 12px;\n  width: 100%;\n  -moz-box-sizing: border-box;\n  -ms-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\nic-autocomplete[is-open] ic-autocomplete-list {\n  display: block;\n}\n\nic-autocomplete-option {\n  display: block;\n  padding: 2px 16px;\n  cursor: default;\n}\n\nic-autocomplete-option:focus {\n  outline: 0;\n  color: white;\n  background: hsl(200, 50%, 50%);\n}\n\nic-autocomplete-option[selected]:before {\n  content: '✓';\n  position: absolute;\n  left: 4px;\n}\n\nic-autocomplete-toggle {\n  display: inline-block;\n  outline: none;\n  position: absolute;\n  top: 2px;\n  right: 6px;\n  font-size: 14px;\n  cursor: default;\n}\n\n.ic-autocomplete-input {\n  position: relative;\n  padding-right: 20px;\n  width: 100%;\n  -moz-box-sizing: border-box;\n  -ms-box-sizing: border-box;\n  box-sizing: border-box;\n}\n\n");
       
     });
-  });define("ic-autocomplete/templates/autocomplete",
+  });
+define("ic-autocomplete/templates/autocomplete",
   ["ember","exports"],
   function(__dependency1__, __exports__) {
     "use strict";
