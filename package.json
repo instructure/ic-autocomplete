@@ -1,6 +1,6 @@
 {
   "name": "ic-autocomplete",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "accessible autocomplete ember component",
   "main": "dist/cjs/main",
   "tags": [
