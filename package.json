@@ -14,16 +14,16 @@
   "author": "Ryan Florence <rpflorence@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "bower": "^1.3.3",
+    "bower": "^1.3.9",
     "broccoli": "^0.12.3",
-    "qunitjs": "~1.12.0",
-    "broccoli-dist-es6-module": "^0.2.0",
     "broccoli-cli": "0.0.1",
-    "broccoli-template-compiler": "^1.4.1",
+    "broccoli-dist-es6-module": "0.2.1",
+    "broccoli-template-compiler": "git://github.com/rpflorence/broccoli-template-compiler#patch-1",
+    "qunitjs": "~1.12.0",
     "rf-release": "^0.1.2",
-    "testem": "^0.6.15"
+    "testem": "^0.6.18"
   },
   "dependencies": {
-    "ic-styled": "^1.1.6"
+    "ic-styled": "^2.0.0"
   }
 }
